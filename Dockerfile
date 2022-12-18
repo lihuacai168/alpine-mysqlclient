@@ -1,41 +1,8 @@
-# FROM python:3.9-alpine
-# LABEL org.opencontainers.image.authors="lihuacai168@gmail.com"
+FROM python:3.9-alpine
+RUN pip config set global.index-url http://pypi.douban.com/simple &&  pip config set install.trusted-host pypi.douban.com/simple && pip install -U pip
 
-# COPY req.txt .
-# RUN apk add --update --no-cache mariadb-connector-c-dev \
-# 	&& apk add --no-cache --virtual .build-deps \
-# 		mariadb-dev \
-# 		gcc \
-# 		musl-dev \
-# 	&& pip install req.txt \
-# 	&& apk del .build-deps
+ENV TZ=Asia/Shanghai
+RUN apk update &&  add --no-cache mariadb-connector-c-dev \
+    apk add python3-dev mariadb-dev build-base netcat-openbsd linux-headers pcre-dev &&\
+    echo $TZ > /etc/timezone && rm -rf /var/cache/apk/*
 
-
-# RUN apk add --no-cache mariadb-connector-c-dev
-# RUN apk update &&  \
-#     apk add python3-dev mariadb-dev build-base netcat-openbsd linux-headers pcre-dev gcc musl-dev && \
-# 	pip install req.txt && \
-#     apk del python3-dev mariadb-dev build-base linux-headers pcre-dev
-
-
-# FROM python:3.9-alpine as Base
-
-# COPY requirements.txt .
-# # RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
-# RUN apk add --no-cache mariadb-connector-c-dev
-# RUN apk update &&  \
-#     apk add python3-dev mariadb-dev build-base netcat-openbsd linux-headers pcre-dev && \
-#     pip install setuptools==57.5.0 && \
-#     pip install -r requirements.txt && \
-#     apk del python3-dev mariadb-dev build-base linux-headers pcre-dev
-
-
-FROM python:3.9-alpine as Base
-
-COPY req.txt .
-# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
-RUN apk add --no-cache mariadb-connector-c-dev
-RUN apk update &&  \
-    apk add python3-dev mariadb-dev build-base netcat-openbsd linux-headers pcre-dev && \
-    pip install -r req.txt && \
-    apk del python3-dev mariadb-dev build-base linux-headers pcre-dev
