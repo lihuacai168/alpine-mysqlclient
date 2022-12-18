@@ -18,13 +18,24 @@
 #     apk del python3-dev mariadb-dev build-base linux-headers pcre-dev
 
 
+# FROM python:3.9-alpine as Base
+
+# COPY requirements.txt .
+# # RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+# RUN apk add --no-cache mariadb-connector-c-dev
+# RUN apk update &&  \
+#     apk add python3-dev mariadb-dev build-base netcat-openbsd linux-headers pcre-dev && \
+#     pip install setuptools==57.5.0 && \
+#     pip install -r requirements.txt && \
+#     apk del python3-dev mariadb-dev build-base linux-headers pcre-dev
+
+
 FROM python:3.9-alpine as Base
 
-COPY requirements.txt .
+COPY req.txt .
 # RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 RUN apk add --no-cache mariadb-connector-c-dev
 RUN apk update &&  \
     apk add python3-dev mariadb-dev build-base netcat-openbsd linux-headers pcre-dev && \
-    pip install setuptools==57.5.0 && \
-    pip install -r requirements.txt && \
+    pip install -r req.txt && \
     apk del python3-dev mariadb-dev build-base linux-headers pcre-dev
