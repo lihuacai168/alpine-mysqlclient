@@ -4,5 +4,5 @@ RUN pip config set global.index-url http://pypi.douban.com/simple &&  pip config
 ENV TZ=Asia/Shanghai
 RUN apk update && apk add --no-cache mariadb-connector-c-dev && \
     apk add python3-dev mariadb-dev build-base netcat-openbsd linux-headers pcre-dev && \
-    echo $TZ > /etc/timezone && rm -rf /var/cache/apk/*
+    echo $TZ > /etc/timezone 
 
